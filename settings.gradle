@@ -1,2 +1,2 @@
-include ':presentation'
+include ':presentation', ':domain'
 rootProject.name='MoviesList'
