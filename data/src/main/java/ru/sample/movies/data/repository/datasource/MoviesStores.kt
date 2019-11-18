@@ -54,9 +54,18 @@ class MoviesDataStoreFactory @Inject constructor(
 
 class CloudMoviesDataStore @Inject constructor(private val api: MoviesApi, private val moviesCache: IMoviesCache) :
     IMovieDataStore {
-
     override fun listMovies(page: Int?): Observable<MoviesPage> {
         return api.moviesList()
+            .doOnNext {
+
+                //save movies list to cache
+                moviesCache.putMoviesPage(it)
+
+                //save movie details to cache
+                for(item in it.results){
+                    moviesCache.putMovie(item)
+                }
+            }
     }
 
     override fun moviesDescription(movieId: Int): Observable<Movie> {
