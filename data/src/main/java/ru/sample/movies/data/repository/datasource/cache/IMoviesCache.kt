@@ -20,21 +20,21 @@ interface IMoviesCache : ICache {
     fun getMoviesPage(page: Int?): Observable<MoviesPage>
 
     /**
-     * Puts and element into the cache.
+     * Puts Movies Page element into the cache.
      *
      * @param moviesPage Element to insert in the cache.
      */
     fun putMoviesPage(moviesPage: MoviesPage)
 
     /**
-     * Puts and element into the cache.
+     * Puts Movie element into the cache.
      *
      * @param movie Element to insert in the cache.
      */
     fun putMovie(movie: Movie)
 
     /**
-     * Checks if an element (bank) exists in the cache.
+     * Checks if an element (Movie) exists in the cache.
      *
      * @param movieId The id used to look for inside the cache.
      * @return true if the element is cached, otherwise false.
@@ -42,7 +42,7 @@ interface IMoviesCache : ICache {
     fun isCachedMovie(movieId: Int?): Boolean
 
     /**
-     * Checks if an element (bank) exists in the cache.
+     * Checks if an element (Movies Page) exists in the cache.
      *
      * @return true if the element is cached, otherwise false.
      */

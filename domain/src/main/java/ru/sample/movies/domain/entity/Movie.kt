@@ -13,7 +13,7 @@ data class Movie(
     val adult: Boolean = false,
 
     //Жанры
-    val genres: List<String> = ArrayList(0),
+    val genres: List<Genre> = ArrayList(0),
 
     //Язык
     val original_language: ELanguage = ELanguage.unknown,

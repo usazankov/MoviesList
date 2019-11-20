@@ -9,13 +9,14 @@ import javax.inject.Singleton
 @Singleton
 class Serializer @Inject constructor(){
     private val gson: Gson = GsonBuilder()
-        .create();
+        .setDateFormat("yyyy-MM-dd")
+        .create()
 
     fun serialize(obj: Any, type: Type): String{
         return gson.toJson(obj, type)
     }
 
     fun <T> deserialize(str: String, type: Type): T{
-        return gson.fromJson(str, type);
+        return gson.fromJson(str, type)
     }
 }
