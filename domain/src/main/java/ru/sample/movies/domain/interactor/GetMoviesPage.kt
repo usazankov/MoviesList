@@ -13,13 +13,13 @@ class GetMoviesPage @Inject constructor(
     postExecutionThread: PostExecutionThread) : UseCase<MoviesPage, GetMoviesPage.Params?>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Params?): Observable<MoviesPage> {
-        return moviesRepository.listMovies(params?.page ?: 0)
+        return moviesRepository.listMovies(params?.page ?: 0, params?.syncWithHost ?: false)
     }
 
-    class Params private constructor(val page: Int) {
+    class Params private constructor(val page: Int, val syncWithHost: Boolean) {
         companion object {
-            fun forPage(page: Int): Params {
-                return Params(page)
+            fun forPage(page: Int, syncWithHost: Boolean): Params {
+                return Params(page, syncWithHost)
             }
         }
     }

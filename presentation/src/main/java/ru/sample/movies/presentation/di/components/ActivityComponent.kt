@@ -1,4 +1,4 @@
-package ru.sample.presentation.internal.di.components
+package ru.sample.movies.presentation.di.components
 
 import dagger.Component
 import ru.sample.presentation.internal.di.PerActivity

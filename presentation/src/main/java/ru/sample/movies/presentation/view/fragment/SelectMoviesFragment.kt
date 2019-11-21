@@ -13,12 +13,12 @@ import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_select_movie.*
 import ru.sample.movies.R
 import ru.sample.movies.domain.entity.Movie
+import ru.sample.movies.presentation.di.components.MoviesComponent
 import ru.sample.movies.presentation.view.adapter.GridSpacingItemDecoration
 import ru.sample.movies.presentation.view.adapter.MoviePagedListAdapter
 import ru.sample.movies.presentation.view.interfaces.SelectMoviesDataView
 import ru.sample.movies.presentation.view.presenter.SelectMoviesPresenter
 import ru.sample.movies.presentation.view.utils.Constant.*
-import ru.sample.presentation.internal.di.components.MoviesComponent
 import javax.inject.Inject
 
 class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
@@ -28,26 +28,17 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var selectMoviesPresenter: SelectMoviesPresenter
 
-
-//    private val itemClickListener = object : BanksAdapter.OnItemClickListener {
-//        override fun onBankItemClicked(shortBankEntity: ShortBankEntity) {
-//            selectBankPresenter.selectBank(shortBankEntity)
-//        }
-//    }
-
     @Inject
     lateinit var moviePagedListAdapter: MoviePagedListAdapter
 
-    init {
-        retainInstance = true
-    }
+    var bundle: Bundle? = null
 
     interface MoviesListListener {
         fun onMovieClicked(movie: Movie)
     }
 
     override fun onClickRetry() {
-        selectMoviesPresenter.initialize()
+        selectMoviesPresenter.initialize(false)
     }
 
     override fun onAttach(activity: Activity) {
@@ -58,6 +49,7 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.getComponent(MoviesComponent::class.java)!!.inject(this)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -75,11 +67,14 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        initialize()
+        if(bundle == null){
+            bundle = Bundle()
+            initialize()
+        }
     }
 
     private fun initialize() {
-        selectMoviesPresenter.initialize()
+        selectMoviesPresenter.initialize(false)
     }
 
     override fun renderMoviesList(pagedList: PagedList<Movie>){
@@ -102,6 +97,14 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
         // change the child layout size in the RecyclerView
         rv_movie.setHasFixedSize(true)
         rv_movie.setAdapter(moviePagedListAdapter)
+
+        swipe_refresh.setOnRefreshListener { selectMoviesPresenter.initialize(true) }
+
+        moviePagedListAdapter.mOnClickHandler = object : MoviePagedListAdapter.MoviePagedListAdapterOnClickHandler {
+            override fun onItemClick(movie: Movie) {
+                moviesListListener?.onMovieClicked(movie)
+            }
+        }
     }
 
     override fun showLoading() {
@@ -122,6 +125,10 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
 
     override fun showError(message: String) {
         //showErrorPopup(message, null)
+    }
+
+    override fun hideRefresh() {
+        swipe_refresh.isRefreshing = false
     }
 
     fun context(): Context {

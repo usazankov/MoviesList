@@ -29,7 +29,9 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
     @Inject
     lateinit var postExecutionThread: PostExecutionThread
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
+
+    val dataSource = MoviesPositionalDataSource(false)
 
     init {
         component.inject(this)
@@ -37,8 +39,11 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
 
     /**
      * Initializes the presenter.
+     * @param syncWithHost
+     * true - data will be taken only from the host,
+     * false - data will be taken if possible from the cache
      */
-    fun initialize() {
+    fun initialize(syncWithHost: Boolean) {
         // Configures how a PagedList loads content from the MovieDataSource
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -49,6 +54,9 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
             // Prefetch distance which defines how far ahead to load
             .setPrefetchDistance(PREFETCH_DISTANCE)
             .build()
+
+        dataSource.syncWithOnlyHost = syncWithHost
+
         val pagedList = PagedList.Builder(dataSource, config)
             .setNotifyExecutor(threadExecutor)
             .setFetchExecutor(threadExecutor)
@@ -56,35 +64,26 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
         viewState.renderMoviesList(pagedList)
     }
 
-    var dataSource: PositionalDataSource<Movie> = object : PositionalDataSource<Movie>(){
+    inner class MoviesPositionalDataSource(var syncWithOnlyHost: Boolean): PositionalDataSource<Movie>(){
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Movie>) {
             Log.d("PagingLib", "loadRange, startPosition = " + params.startPosition +
                     ", loadSize = " + params.loadSize);
-            //TODO
+            //TODO if it will be possible to load the list page by page
         }
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Movie>) {
             Log.d("PagingLib", "loadInitial, requestedStartPosition = " + params.requestedStartPosition +
                     ", requestedLoadSize = " + params.requestedLoadSize);
-            val d = getMoviesPage.buildUseCaseObservable(GetMoviesPage.Params.forPage(1))
+            val d = getMoviesPage.buildUseCaseObservable(GetMoviesPage.Params.forPage(1, syncWithOnlyHost))
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.getScheduler())
                 .subscribe {
                     callback.onResult(it.results, 0)
+                    viewState.hideRefresh()
                 }
             compositeDisposable.add(d)
         }
-
     }
-
-    /**
-     * Loads all users.
-     */
-//    private fun loadMoviesList() {
-//        this.hideViewRetry()
-//        this.showViewLoading()
-//        getMoviesPage.execute(GetMoviesListObserver(), null)
-//    }
 
     private fun hideViewRetry() {
         viewState.hideRetry()
@@ -98,9 +97,9 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
         viewState.hideLoading()
     }
 
-//    fun selectBank(shortBankEntity: ShortBankEntity){
-//        viewState.viewBankDetails(shortBankEntity)
-//    }
+    fun selectMovie(movie: Movie){
+        viewState.viewMoviesDetails(movie)
+    }
 
     private fun showViewRetry(throwable: Throwable) {
         //val message = ErrorMessageFactory.create(throwable)
@@ -113,19 +112,5 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
         compositeDisposable.dispose()
     }
 
-//    private inner class GetMoviesListObserver : DisposableObserver<MoviesPage>() {
-//
-//        override fun onComplete() {
-//            hideViewLoading()
-//        }
-//
-//        override fun onError(e: Throwable) {
-//            hideViewLoading()
-//            showViewRetry(e)
-//        }
-//
-//        override fun onNext(moviesPage: MoviesPage) {
-//            viewState.renderMoviesPage(moviesPage)
-//        }
-//    }
+
 }

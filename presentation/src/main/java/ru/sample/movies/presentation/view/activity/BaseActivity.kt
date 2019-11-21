@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.sample.movies.R
 import ru.sample.movies.presentation.AndroidApplication
+import ru.sample.movies.presentation.di.components.ApplicationComponent
 import ru.sample.movies.presentation.view.fragment.BaseFragment
-import ru.sample.presentation.internal.di.components.ApplicationComponent
 import ru.sample.presentation.internal.di.modules.ActivityModule
 import ru.sample.presentation.navigation.Navigator
 import ru.sample.presentation.view.activity.listeners.OnBackPressed

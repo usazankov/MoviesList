@@ -110,42 +110,11 @@ public final class Constant {
     /** Constant used in GridSpacingItemDecoration */
     public static final int ONE = 1;
 
-    public static final String RESULTS_RUNTIME = "runtime";
-    public static final String RESULTS_RELEASE_YEAR = "release_year";
-    public static final String RESULTS_GENRE = "genre";
-
-    /** Key for storing the scroll position in MainActivity */
-    public static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
-
-    public static final String DATABASE_NAME = "favoritemovies";
-
-    /** The number of threads in the pool used in AppExecutors */
-    public static final int NUMBER_OF_THREADS_THREE = 3;
-
-    /** Constant for setCompoundDrawablesWithIntrinsicBounds */
-    public static final int DRAWABLES_ZERO = 0;
-
-    /** Constants for pages used in MovieDataSource */
-    public static final int PREVIOUS_PAGE_KEY_ONE = 1;
-    public static final int NEXT_PAGE_KEY_TWO = 2;
-    public static final int PAGE_ONE = 1;
-
-    /** The number of fixed thread pools used in the MainActivityViewModel */
-    public static final int NUMBER_OF_FIXED_THREADS_FIVE = 5;
-
-    // Constants used in MainActivityViewModel
     /** Size hint for initial load of PagedList */
-    public static final int INITIAL_LOAD_SIZE_HINT = 10;
+    public static final int INITIAL_LOAD_SIZE_HINT = 100;
     /** Size of each page loaded by the PagedList */
-    public static final int PAGE_SIZE = 20;
+    public static final int PAGE_SIZE = 100;
     /** Prefetch distance which defines how far ahead to load */
     public static final int PREFETCH_DISTANCE = 50;
 
-    /** Constants for menu option in FavoriteAdapter */
-    public static final String DELETE = "Delete";
-    public static final int DELETE_GROUP_ID = 0;
-    public static final int DELETE_ORDER = 0;
-
-    /** Constant for formatting runtime */
-    public static final int ZERO = 0;
 }

@@ -2,15 +2,19 @@ package ru.sample.movies.presentation.view.activity
 
 import android.os.Bundle
 import ru.sample.movies.R
+import ru.sample.movies.domain.entity.Movie
+import ru.sample.movies.presentation.di.components.DaggerMoviesComponent
+import ru.sample.movies.presentation.di.components.MoviesComponent
+import ru.sample.movies.presentation.view.fragment.MovieDetailsFragment
 import ru.sample.movies.presentation.view.fragment.SelectMoviesFragment
 import ru.sample.presentation.internal.di.HasComponent
-import ru.sample.presentation.internal.di.components.DaggerMoviesComponent
-import ru.sample.presentation.internal.di.components.MoviesComponent
 
 /**
  * Main application screen. This is the app entry point.
  */
-class MainActivity: BaseActivity(), HasComponent<MoviesComponent> {
+class MainActivity: BaseActivity(),
+    HasComponent<MoviesComponent>,
+    SelectMoviesFragment.MoviesListListener {
 
     override lateinit var component: MoviesComponent
 
@@ -29,5 +33,9 @@ class MainActivity: BaseActivity(), HasComponent<MoviesComponent> {
             .activityModule(activityModule)
             .build()
         applicationComponent.inject(this)
+    }
+
+    override fun onMovieClicked(movie: Movie) {
+        replaceFragment(R.id.fragmentContainer, MovieDetailsFragment.forMovieId(movie.id ?: -1))
     }
 }

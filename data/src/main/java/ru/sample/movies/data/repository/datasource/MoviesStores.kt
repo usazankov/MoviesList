@@ -20,7 +20,7 @@ class MoviesDataStoreFactory @Inject constructor(
 ) {
 
     /**
-     * Create [IMovieDataStore] from a bank id.
+     * Create [IMovieDataStore] from a movie id.
      */
     fun createWithCacheDetailsMovie(movieId: Int): IMovieDataStore {
         val bankDataStore: IMovieDataStore
@@ -36,7 +36,7 @@ class MoviesDataStoreFactory @Inject constructor(
     }
 
     /**
-     * Create [IMovieDataStore] from a bank id.
+     * Create [IMovieDataStore] from a page.
      */
     fun createWithCacheMoviesPage(page: Int): IMovieDataStore {
         val bankDataStore: IMovieDataStore
@@ -50,6 +50,16 @@ class MoviesDataStoreFactory @Inject constructor(
         }
         return bankDataStore
     }
+
+    /**
+     * Create [IMovieDataStore] from a page.
+     */
+    fun createCloudMoviesPage(page: Int) = CloudMoviesDataStore(api, moviesCache)
+
+    /**
+     * Create [IMovieDataStore] from a page.
+     */
+    fun createCloudDetailsMovie(movieId: Int) = CloudMoviesDataStore(api, moviesCache)
 }
 
 class CloudMoviesDataStore @Inject constructor(private val api: MoviesApi, private val moviesCache: IMoviesCache) :

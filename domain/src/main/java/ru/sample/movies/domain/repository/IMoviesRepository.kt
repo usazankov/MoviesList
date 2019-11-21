@@ -10,11 +10,11 @@ interface IMoviesRepository {
      * @return page of movies
      * @param page - page number ranging from 1
      */
-    fun listMovies(page: Int): Observable<MoviesPage>
+    fun listMovies(page: Int, syncWithHost: Boolean): Observable<MoviesPage>
 
     /**
      * @return description of movie
      * @param id - movie id
      */
-    fun movieDescription(id: Int): Observable<Movie>
+    fun movieDescription(id: Int, syncWithHost: Boolean): Observable<Movie>
 }

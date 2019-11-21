@@ -38,4 +38,11 @@ interface LoadDataView {
      */
     @StateStrategyType(SkipStrategy::class)
     fun showError(message: String)
+
+    /**
+     * Hide swipe refresh
+     *
+     */
+    @StateStrategyType(SkipStrategy::class)
+    fun hideRefresh()
 }

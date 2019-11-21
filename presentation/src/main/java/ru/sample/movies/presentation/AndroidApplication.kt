@@ -3,8 +3,8 @@ package ru.sample.movies.presentation
 import android.app.Application
 import android.util.Log
 import io.reactivex.plugins.RxJavaPlugins
-import ru.sample.presentation.internal.di.components.ApplicationComponent
-import ru.sample.presentation.internal.di.components.DaggerApplicationComponent
+import ru.sample.movies.presentation.di.components.ApplicationComponent
+import ru.sample.movies.presentation.di.components.DaggerApplicationComponent
 import ru.sample.presentation.internal.di.modules.ApplicationModule
 
 class AndroidApplication : Application() {

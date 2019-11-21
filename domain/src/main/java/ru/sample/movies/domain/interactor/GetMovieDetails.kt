@@ -13,13 +13,13 @@ class GetMovieDetails @Inject constructor(
     postExecutionThread: PostExecutionThread) : UseCase<Movie, GetMovieDetails.Params?>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Params?): Observable<Movie> {
-        return moviesRepository.movieDescription(params?.id ?: -1)
+        return moviesRepository.movieDescription(params?.id ?: -1, params?.syncWithOnlyHost ?: false)
     }
 
-    class Params private constructor(val id: Int) {
+    class Params private constructor(val id: Int, val syncWithOnlyHost: Boolean) {
         companion object {
-            fun forMovieId(id: Int): Params {
-                return Params(id)
+            fun forMovieId(id: Int, syncWithOnlyHost: Boolean): Params {
+                return Params(id, syncWithOnlyHost)
             }
         }
     }

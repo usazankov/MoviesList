@@ -11,11 +11,17 @@ import javax.inject.Singleton
 class MoviesRepository @Inject constructor(val bankDataStoreFactory: MoviesDataStoreFactory) :
     IMoviesRepository {
 
-    override fun listMovies(page: Int): Observable<MoviesPage> {
+    override fun listMovies(page: Int, syncWithHost: Boolean): Observable<MoviesPage> {
+        if(syncWithHost){
+            return bankDataStoreFactory.createCloudMoviesPage(page).listMovies(page)
+        }
         return bankDataStoreFactory.createWithCacheMoviesPage(page).listMovies(page)
     }
 
-    override fun movieDescription(id: Int): Observable<Movie> {
+    override fun movieDescription(id: Int, syncWithHost: Boolean): Observable<Movie> {
+        if(syncWithHost){
+            return bankDataStoreFactory.createCloudDetailsMovie(id).moviesDescription(id)
+        }
         return bankDataStoreFactory.createWithCacheDetailsMovie(id).moviesDescription(id)
     }
 
