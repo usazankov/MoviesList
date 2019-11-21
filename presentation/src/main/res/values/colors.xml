@@ -33,4 +33,6 @@
     <color name="color_fab">#ff1744</color>
 
     <color name="background_pb">#caffffff</color>
+
+    <color name="titleTextColor">#272727</color>
 </resources>

@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import ru.sample.movies.R
 import ru.sample.presentation.internal.di.HasComponent
@@ -36,22 +37,19 @@ abstract class BaseFragment : MvpAndroidxFragment() {
 //    internal var picasso: Picasso? = null
 
     protected fun initToolBar(v: View, layoutInflater: LayoutInflater) {
-//        toolbar = v.findViewById(R.id.toolbar)
-//        main_title = v.findViewById(R.id.main_title)
-//        sub_title = v.findViewById(R.id.sub_title)
-//        val appCompatActivity = activity as AppCompatActivity
-//        appCompatActivity.setSupportActionBar(toolbar)
-//        val actionBar = appCompatActivity.getSupportActionBar()
-//        if (actionBar != null) {
-//            actionBar.setDisplayShowTitleEnabled(false)
-//            actionBar.setDisplayHomeAsUpEnabled(true)
-//            actionBar.setDisplayShowCustomEnabled(true)
-//            val v = layoutInflater.inflate(R.layout.action_bar, null)
-//            title_action_bar = v.findViewById(R.id.title_action_bar)
-//            logo_action_bar = v.findViewById(R.id.logo_action_bar)
-//            actionBar.setCustomView(v)
-//        }
-//        toolbar.setNavigationOnClickListener(toolbarBackButtonListener)
+        toolbar = v.findViewById(R.id.toolbar)
+        val appCompatActivity = activity as AppCompatActivity
+        appCompatActivity.setSupportActionBar(toolbar)
+        val actionBar = appCompatActivity.getSupportActionBar()
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false)
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setDisplayShowCustomEnabled(true)
+            val v = layoutInflater.inflate(R.layout.action_bar, null)
+            title_action_bar = v.findViewById(R.id.title_action_bar)
+            actionBar.setCustomView(v)
+        }
+        toolbar.setNavigationOnClickListener(toolbarBackButtonListener)
     }
 
     protected fun initProgressBar(v: View){

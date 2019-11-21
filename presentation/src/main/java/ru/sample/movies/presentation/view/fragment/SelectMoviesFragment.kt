@@ -59,7 +59,7 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
         val fragmentView = inflater.inflate(R.layout.fragment_select_movie, container, false)
         initToolBar(fragmentView, inflater)
         initProgressBar(fragmentView)
-        //setTitleToolBar(R.string.title_list_banks)
+        setTitleToolBar(R.string.app_name)
 
         return fragmentView
     }
