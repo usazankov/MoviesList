@@ -8,7 +8,7 @@ import ru.sample.movies.domain.repository.IMoviesRepository
 import javax.inject.Inject
 
 class GetMovieDetails @Inject constructor(
-    val moviesRepository: IMoviesRepository,
+    private val moviesRepository: IMoviesRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread) : UseCase<Movie, GetMovieDetails.Params?>(threadExecutor, postExecutionThread) {
 

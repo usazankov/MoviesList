@@ -25,8 +25,8 @@ class MovieDetailsPresenter : BasePresenter<MovieDetailsView>() {
         component.inject(this)
     }
 
-    fun initialize(syncWithHostOnly: Boolean){
-
+    fun initialize(movieId: Int, syncWithHostOnly: Boolean){
+        getMoviesDetails.execute(GetMoviesListObserver(), GetMovieDetails.Params.forMovieId(movieId, syncWithHostOnly))
     }
 
     override fun onDestroy() {
@@ -47,7 +47,6 @@ class MovieDetailsPresenter : BasePresenter<MovieDetailsView>() {
     }
 
     private fun showViewRetry(throwable: Throwable) {
-        //val message = ErrorMessageFactory.create(throwable)
         viewState.showRetry("Ошибка")
     }
 

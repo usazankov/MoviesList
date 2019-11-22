@@ -77,26 +77,18 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/tv_runtime"
-                    style="@style/BasicTextStyle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
-                    tools:text="122 min"
-                    android:paddingLeft="@dimen/padding_activity"
-                    android:paddingRight="@dimen/padding_activity"
-                    android:textColor="@color/blue_grey_light" />
-
-                <TextView
                     android:id="@+id/tv_release_year"
                     style="@style/BasicTextStyle"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_runtime"
+                    android:paddingLeft="@dimen/padding_activity"
+                    android:paddingRight="@dimen/padding_activity"
+                    android:textColor="@color/blue_grey_light"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
-                    tools:text="2018"
-                    android:textColor="@color/blue_grey_light" />
+                    tools:text="2012-12-12" />
 
                 <FrameLayout
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_runtime"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_release_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -126,6 +118,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/frame"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/frame"
+                    android:clickable="true"
+                    android:src="@drawable/favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_activity" />
@@ -141,13 +135,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <!-- Provides a horizontal layout to display tabs -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            style="@style/CategoryTab"
-            app:tabMode="scrollable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_grey_dark" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -1,6 +1,28 @@
 <resources>
     <string name="app_name">MoviesList</string>
+
+    <!-- The content description of the movie poster image, backdrop image, cast images and play image -->
     <string name="thumbnail_content_description">Movie poster image thumbnail</string>
-    <string name="play_content_description">Trailer play button</string>
     <string name="backdrop_content_description">Backdrop image</string>
+    <string name="cast_content_description">Cast images</string>
+    <string name="play_content_description">Trailer play button</string>
+    <string name="trailer_thumbnail_content_description">YouTube video thumbnail</string>
+    <string name="star_content_description">Star image</string>
+    <string name="person_content_description">Person image</string>
+
+    <!-- String for the movie details -->
+    <string name="ten">/10</string>
+    <string name="vote_average">Avg rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="adults">For adults</string>
+    <string name="language">Language</string>
+    <string name="popularity">Populatity</string>
+    <string name="synopsis">Description</string>
+    <string name="trailer">Trailer</string>
+    <string name="details">Details</string>
+    <string name="cast_and_crew">Cast &amp; Crew</string>
+    <string name="cast">Cast</string>
+    <string name="director">Director</string>
+    <string name="original_title">Original Title</string>
+    <string name="view_all">View All</string>
 </resources>
