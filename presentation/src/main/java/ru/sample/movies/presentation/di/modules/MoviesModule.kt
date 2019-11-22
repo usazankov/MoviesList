@@ -1,7 +1,7 @@
-package ru.sample.presentation.internal.di.modules
+package ru.sample.movies.presentation.di.modules
 
 import dagger.Module
 
 @Module(includes = arrayOf(DataModule::class, PicassoModule::class, RestModule::class))
-class SoftPosModule {
+class MoviesModule {
 }

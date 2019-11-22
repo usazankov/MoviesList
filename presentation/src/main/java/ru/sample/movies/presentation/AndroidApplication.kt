@@ -5,7 +5,7 @@ import android.util.Log
 import io.reactivex.plugins.RxJavaPlugins
 import ru.sample.movies.presentation.di.components.ApplicationComponent
 import ru.sample.movies.presentation.di.components.DaggerApplicationComponent
-import ru.sample.presentation.internal.di.modules.ApplicationModule
+import ru.sample.movies.presentation.di.modules.ApplicationModule
 
 class AndroidApplication : Application() {
 

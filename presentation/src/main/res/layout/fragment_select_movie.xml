@@ -39,7 +39,10 @@
             android:textAlignment="center"
             android:drawablePadding="@dimen/padding_activity"
             android:textColor="@color/color_offline" />
-
+        <include
+            layout="@layout/layout_error"
+            android:visibility="gone" />
     </FrameLayout>
+
 </LinearLayout>
 

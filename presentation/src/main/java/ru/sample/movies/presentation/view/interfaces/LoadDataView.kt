@@ -20,24 +20,19 @@ interface LoadDataView {
     fun hideLoading()
 
     /**
-     * Show a retry view in case of an error when retrieving data.
-     */
-    @StateStrategyType(SkipStrategy::class)
-    fun showRetry(message: String)
-
-    /**
-     * Hide a retry view shown if there was an error when retrieving data.
-     */
-    @StateStrategyType(SkipStrategy::class)
-    fun hideRetry()
-
-    /**
      * Show an error message
      *
      * @param message A string representing an error.
      */
     @StateStrategyType(SkipStrategy::class)
     fun showError(message: String)
+
+    /**
+     * Hide an error message
+     *
+     */
+    @StateStrategyType(SkipStrategy::class)
+    fun hideError()
 
     /**
      * Hide swipe refresh

@@ -34,20 +34,12 @@ class MovieDetailsPresenter : BasePresenter<MovieDetailsView>() {
         getMoviesDetails.dispose()
     }
 
-    private fun hideViewRetry() {
-        viewState.hideRetry()
-    }
-
     private fun showViewLoading() {
         viewState.showLoading()
     }
 
     private fun hideViewLoading() {
         viewState.hideLoading()
-    }
-
-    private fun showViewRetry(throwable: Throwable) {
-        viewState.showRetry("Ошибка")
     }
 
     private inner class GetMoviesListObserver : DisposableObserver<Movie>() {
@@ -58,7 +50,7 @@ class MovieDetailsPresenter : BasePresenter<MovieDetailsView>() {
 
         override fun onError(e: Throwable) {
             hideViewLoading()
-            showViewRetry(e)
+            viewState.showError("Ошибка")
         }
 
         override fun onNext(movie: Movie) {

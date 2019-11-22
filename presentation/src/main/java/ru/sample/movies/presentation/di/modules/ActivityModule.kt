@@ -1,4 +1,4 @@
-package ru.sample.presentation.internal.di.modules
+package ru.sample.movies.presentation.di.modules
 
 import android.app.Activity
 import dagger.Module

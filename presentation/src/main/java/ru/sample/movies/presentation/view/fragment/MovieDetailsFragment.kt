@@ -1,16 +1,13 @@
 package ru.sample.movies.presentation.view.fragment
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
-import com.halilibo.bvpkotlin.captions.CaptionsView
 import kotlinx.android.synthetic.main.fragment_details_movie.*
 
 import ru.sample.movies.domain.entity.Movie
@@ -19,7 +16,6 @@ import ru.sample.movies.presentation.view.interfaces.MovieDetailsView
 import ru.sample.movies.presentation.view.presenter.MovieDetailsPresenter
 import ru.sample.movies.presentation.view.utils.UIParam
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.action_bar.view.*
 import kotlinx.android.synthetic.main.content_detail.*
 import ru.sample.movies.R
 import ru.sample.movies.presentation.view.utils.Utils
@@ -61,7 +57,6 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView{
     ): View {
         val fragmentView = inflater.inflate(R.layout.fragment_details_movie, container, false)
         initToolBar(fragmentView, inflater)
-        initProgressBar(fragmentView)
         //setTitleToolBar(R.string.title_list_banks)
 
         return fragmentView
@@ -120,18 +115,14 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView{
     }
 
     override fun showLoading() {
-        showProgressBarLoading()
+
     }
 
     override fun hideLoading() {
-        hideProgressBarLoading()
+
     }
 
-    override fun showRetry(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun hideRetry() {
+    override fun hideError() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -141,10 +132,6 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView{
 
     override fun hideRefresh() {
 
-    }
-
-    override fun onClickRetry() {
-        movieDetailsPresenter.initialize(movieId(),false)
     }
 
     fun context(): Context {

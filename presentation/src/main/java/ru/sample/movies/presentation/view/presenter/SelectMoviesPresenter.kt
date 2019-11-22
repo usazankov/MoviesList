@@ -61,6 +61,7 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
             .setNotifyExecutor(threadExecutor)
             .setFetchExecutor(threadExecutor)
             .build()
+        viewState.hideError()
         viewState.renderMoviesList(pagedList)
     }
 
@@ -77,33 +78,16 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
             val d = getMoviesPage.buildUseCaseObservable(GetMoviesPage.Params.forPage(1, syncWithOnlyHost))
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.getScheduler())
+                .doOnError {
+                    viewState.showError("Ошибка")
+                    viewState.hideRefresh()
+                }
                 .subscribe {
                     callback.onResult(it.results, 0)
                     viewState.hideRefresh()
                 }
             compositeDisposable.add(d)
         }
-    }
-
-    private fun hideViewRetry() {
-        viewState.hideRetry()
-    }
-
-    private fun showViewLoading() {
-        viewState.showLoading()
-    }
-
-    private fun hideViewLoading() {
-        viewState.hideLoading()
-    }
-
-    fun selectMovie(movie: Movie){
-        viewState.viewMoviesDetails(movie)
-    }
-
-    private fun showViewRetry(throwable: Throwable) {
-        //val message = ErrorMessageFactory.create(throwable)
-        viewState.showRetry("Ошибка")
     }
 
     override fun onDestroy() {

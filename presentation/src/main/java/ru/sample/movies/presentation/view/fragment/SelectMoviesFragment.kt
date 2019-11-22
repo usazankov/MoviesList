@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_select_movie.*
+import kotlinx.android.synthetic.main.layout_error.*
 import ru.sample.movies.R
 import ru.sample.movies.domain.entity.Movie
 import ru.sample.movies.presentation.di.components.MoviesComponent
@@ -37,10 +38,6 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
         fun onMovieClicked(movie: Movie)
     }
 
-    override fun onClickRetry() {
-        selectMoviesPresenter.initialize(false)
-    }
-
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         this.moviesListListener = activity as? MoviesListListener
@@ -58,7 +55,6 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     ): View {
         val fragmentView = inflater.inflate(R.layout.fragment_select_movie, container, false)
         initToolBar(fragmentView, inflater)
-        initProgressBar(fragmentView)
         setTitleToolBar(R.string.app_name)
 
         return fragmentView
@@ -108,23 +104,19 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     }
 
     override fun showLoading() {
-        showProgressBarLoading()
+        swipe_refresh.isRefreshing = true
     }
 
     override fun hideLoading() {
-        hideProgressBarLoading()
-    }
-
-    override fun showRetry(message: String) {
-        //showErrorPopupRtry(message)
-    }
-
-    override fun hideRetry() {
-        //hideErrorPopupRetry()
+        swipe_refresh.isRefreshing = false
     }
 
     override fun showError(message: String) {
-        //showErrorPopup(message, null)
+        rl_error?.visibility = View.VISIBLE
+    }
+
+    override fun hideError() {
+        rl_error?.visibility = View.GONE
     }
 
     override fun hideRefresh() {
