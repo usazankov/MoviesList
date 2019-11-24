@@ -26,7 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @return [ApplicationComponent]
      */
     protected val applicationComponent: ApplicationComponent
-        get() = (getApplication() as AndroidApplication).applicationComponent
+        get() = (application as AndroidApplication).applicationComponent
 
     /**
      * Get an Activity module for dependency injection.
@@ -48,7 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param fragment The fragment to be added.
      */
     protected fun addFragment(containerViewId: Int, fragment: BaseFragment) {
-        val fragmentTransaction = this.getSupportFragmentManager().beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(containerViewId, fragment)
         fragmentTransaction.commit()
     }
@@ -60,7 +60,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param fragment The fragment to be added.
      */
     protected fun addFragment(containerViewId: Int, fragment: BaseFragment, tag: String) {
-        val fragmentTransaction = this.getSupportFragmentManager().beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(containerViewId, fragment, tag)
         fragmentTransaction.commit()
     }
@@ -72,7 +72,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param fragment The fragment to be added.
      */
     protected fun replaceFragment(containerViewId: Int, fragment: Fragment) {
-        val fragmentTransaction = this.getSupportFragmentManager().beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(containerViewId, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
@@ -85,7 +85,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param fragment The fragment to be added.
      */
     protected fun replaceFragment(containerViewId: Int, fragment: Fragment, tag: String) {
-        val fragmentTransaction = this.getSupportFragmentManager().beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(containerViewId, fragment, tag)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()

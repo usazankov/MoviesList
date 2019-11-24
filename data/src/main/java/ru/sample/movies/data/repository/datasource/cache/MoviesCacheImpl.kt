@@ -24,9 +24,9 @@ class MoviesCacheImpl @Inject constructor(context: Context, serializer: Serializ
     }
 
     companion object{
-        val SETTINGS_KEY_LAST_CACHE_UPDATE = "movie_cache_update";
-        val MOVIE_FILE_NAME = "movie_";
-        val MOVIES_PAGE_NAME = "movie_page_";
+        const val SETTINGS_KEY_LAST_CACHE_UPDATE = "movie_cache_update"
+        const val MOVIE_FILE_NAME = "movie_"
+        const val MOVIES_PAGE_NAME = "movie_page_"
     }
 
     override fun getMovie(movieId: Int?): Observable<Movie> {
@@ -59,9 +59,9 @@ class MoviesCacheImpl @Inject constructor(context: Context, serializer: Serializ
 
     private fun validateMoviesPage(moviesPage: MoviesPage): Boolean {
         for (item in moviesPage.results) {
-            if (item.id == null) return false;
+            if (item.id == null) return false
         }
-        return true;
+        return true
     }
 
     override fun putMoviesPage(moviesPage: MoviesPage) {

@@ -23,32 +23,22 @@ class MoviesDataStoreFactory @Inject constructor(
      * Create [IMovieDataStore] from a movie id.
      */
     fun createWithCacheDetailsMovie(movieId: Int): IMovieDataStore {
-        val bankDataStore: IMovieDataStore
-
-        if (!this.moviesCache.isExpired() && this.moviesCache.isCachedMovie(movieId)) {
-            bankDataStore =
-                DiskMoviesDataStore(this.moviesCache)
+        return if (!this.moviesCache.isExpired() && this.moviesCache.isCachedMovie(movieId)) {
+            DiskMoviesDataStore(this.moviesCache)
         } else {
-            bankDataStore =
-                CloudMoviesDataStore(api, moviesCache)
+            CloudMoviesDataStore(api, moviesCache)
         }
-        return bankDataStore
     }
 
     /**
      * Create [IMovieDataStore] from a page.
      */
     fun createWithCacheMoviesPage(page: Int): IMovieDataStore {
-        val bankDataStore: IMovieDataStore
-
-        if (!this.moviesCache.isExpired() && this.moviesCache.isCachedMoviesPage(page)) {
-            bankDataStore =
+        return if (!this.moviesCache.isExpired() && this.moviesCache.isCachedMoviesPage(page)) {
                 DiskMoviesDataStore(this.moviesCache)
         } else {
-            bankDataStore =
                 CloudMoviesDataStore(api, moviesCache)
         }
-        return bankDataStore
     }
 
     /**

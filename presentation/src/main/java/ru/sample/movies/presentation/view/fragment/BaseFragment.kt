@@ -2,8 +2,6 @@ package ru.sample.movies.presentation.view.fragment
 
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -12,7 +10,7 @@ import ru.sample.presentation.internal.di.HasComponent
 import ru.sample.presentation.view.fragment.moxy.MvpAndroidxFragment
 
 /**
- * Base {@link android.app.Fragment} class for every fragment in this application.
+ * Base {@link androidx.fragment.app.Fragment} class for every fragment in this application.
  */
 abstract class BaseFragment : MvpAndroidxFragment() {
 

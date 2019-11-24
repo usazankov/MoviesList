@@ -1,6 +1,5 @@
 package ru.sample.movies.presentation.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import javax.inject.Inject
  * The PagedListAdapter is notified when pages are loaded, and it uses DiffUtil to compute fine grain
  * updates as new data is received.
  */
-class MoviePagedListAdapter @Inject constructor (private val context: Context, private val picasso: Picasso) : PagedListAdapter<Movie, MoviePagedListAdapter.MoviePagedViewHolder>(DIFF_CALLBACK) {
+class MoviePagedListAdapter @Inject constructor (private val picasso: Picasso) : PagedListAdapter<Movie, MoviePagedListAdapter.MoviePagedViewHolder>(DIFF_CALLBACK) {
 
     /** An on-click handler that we've defined to make it easy for an Activity to interface with
      * our RecyclerView
@@ -66,7 +65,7 @@ class MoviePagedListAdapter @Inject constructor (private val context: Context, p
             .into(holder.imageMovie)
 
         // Display the title
-        holder.tvTitle.setText(movie?.title)
+        holder.tvTitle.text = movie?.title
         holder.itemView.setOnClickListener {
             if(movie != null)
                 mOnClickHandler?.onItemClick(movie)

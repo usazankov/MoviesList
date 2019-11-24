@@ -25,7 +25,7 @@ class JobExecutor @Inject constructor() : ThreadExecutor {
 
     class JobThreadFactory : ThreadFactory{
         private var counter = 0
-        override fun newThread(p0: Runnable) = Thread(p0, "android_" + counter)
+        override fun newThread(p0: Runnable) = Thread(p0, "android_${counter}")
     }
 
 }

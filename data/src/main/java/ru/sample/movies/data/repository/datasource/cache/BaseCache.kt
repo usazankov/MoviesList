@@ -9,16 +9,16 @@ abstract class BaseCache(
     protected val context: Context,
     protected val serializer: Serializer,
     protected val fileManager: FileManager,
-    protected val threadExecutor: ThreadExecutor,
+    private val threadExecutor: ThreadExecutor,
     private val settingsKey: String
 ) : ICache {
     private var expirationTime: Long = 0
 
-    protected var cacheDir: File
+    protected var cacheDir: File = context.cacheDir
 
     companion object {
-        protected val SETTINGS_FILE_NAME = "ru.inpas.enrollapp.SETTINGS"
-        private val DEFAULT_EXPIRATION_TIME = (120 * 1000).toLong()
+        const val SETTINGS_FILE_NAME = "ru.inpas.enrollapp.SETTINGS"
+        const val DEFAULT_EXPIRATION_TIME = (120 * 1000).toLong()
     }
 
     override fun isExpired(): Boolean {
@@ -39,7 +39,7 @@ abstract class BaseCache(
     /**
      * Get in millis, the last time the cache was accessed.
      */
-    protected val lastCacheUpdateTimeMillis: Long
+    private val lastCacheUpdateTimeMillis: Long
         get() = this.fileManager.getFromPreferences(
             context,
             SETTINGS_FILE_NAME,
@@ -47,13 +47,8 @@ abstract class BaseCache(
         )
 
     init {
-        this.cacheDir = context.cacheDir
         expirationTime =
             DEFAULT_EXPIRATION_TIME
-    }
-
-    fun setExpirationTime(time: Long) {
-        expirationTime = time
     }
 
     override fun evictAll() {
@@ -87,10 +82,6 @@ abstract class BaseCache(
         this.threadExecutor.execute(runnable)
     }
 
-    protected fun write(fileToWrite: File, fileContent: String) {
-        this.fileManager.writeToFile(fileToWrite, fileContent)
-    }
-
     /**
      * [Runnable] class for writing to disk.
      */
@@ -103,10 +94,6 @@ abstract class BaseCache(
         override fun run() {
             this.fileManager.writeToFile(fileToWrite, fileContent)
         }
-    }
-
-    protected fun clear() {
-        this.fileManager.clearDirectory(this.cacheDir)
     }
 
     /**

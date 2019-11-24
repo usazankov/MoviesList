@@ -2,7 +2,6 @@ package ru.sample.movies.data.net
 
 import io.reactivex.Observable
 import retrofit2.http.GET
-import retrofit2.http.Path
 import ru.sample.movies.domain.entity.*
 
 interface MoviesApi {
