@@ -1,6 +1,5 @@
 package ru.sample.movies.presentation.view.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,15 +31,15 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     @Inject
     lateinit var moviePagedListAdapter: MoviePagedListAdapter
 
-    var bundle: Bundle? = null
+    private var bundle: Bundle? = null
 
     interface MoviesListListener {
         fun onMovieClicked(movie: Movie)
     }
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-        this.moviesListListener = activity as? MoviesListListener
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.moviesListListener = context as? MoviesListListener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +83,7 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
     private fun setupViews() {
         val layoutManager = GridLayoutManager(context(), GRID_SPAN_COUNT)
         // Set the layout manager to the RecyclerView
-        rv_movie.setLayoutManager(layoutManager)
+        rv_movie.layoutManager = layoutManager
         val decoration = GridSpacingItemDecoration(
             GRID_SPAN_COUNT, GRID_SPACING, GRID_INCLUDE_EDGE
         )
@@ -92,7 +91,7 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
         // Use this setting to improve performance if you know that changes in content do not
         // change the child layout size in the RecyclerView
         rv_movie.setHasFixedSize(true)
-        rv_movie.setAdapter(moviePagedListAdapter)
+        rv_movie.adapter = moviePagedListAdapter
 
         swipe_refresh.setOnRefreshListener { selectMoviesPresenter.initialize(true) }
 
@@ -119,12 +118,8 @@ class SelectMoviesFragment : BaseFragment(), SelectMoviesDataView {
         rl_error?.visibility = View.GONE
     }
 
-    override fun hideRefresh() {
-        swipe_refresh.isRefreshing = false
-    }
-
     fun context(): Context {
-        return this.activity!!.getApplicationContext()
+        return this.activity!!.applicationContext
     }
 
 }

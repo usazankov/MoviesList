@@ -17,6 +17,7 @@ import ru.sample.movies.presentation.view.presenter.MovieDetailsPresenter
 import ru.sample.movies.presentation.view.utils.UIParam
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.content_detail.*
+import kotlinx.android.synthetic.main.layout_error.*
 import ru.sample.movies.R
 import ru.sample.movies.presentation.view.utils.Utils
 import java.text.SimpleDateFormat
@@ -55,25 +56,28 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fragmentView = inflater.inflate(R.layout.fragment_details_movie, container, false)
-        initToolBar(fragmentView, inflater)
-        //setTitleToolBar(R.string.title_list_banks)
-
-        return fragmentView
+        val view = inflater.inflate(R.layout.fragment_details_movie, container, false)
+        initToolBar(view, inflater)
+        return view
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupViews()
         initialize()
-        setupVideo()
     }
 
-    private fun setupVideo(){
+    private fun setupViews(){
         bvp.setHideControlsOnPlay(true)
+        swipe_refresh_det.setOnRefreshListener {
+            movieDetailsPresenter.initialize(movieId(), true)
+        }
     }
 
     private fun setupTrailer(path: String) {
+        bvp.reset()
         bvp.setSource(Uri.parse(path))
     }
 
@@ -89,58 +93,53 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView{
     override fun renderMovie(movie: Movie) {
 
         //Title
-        tv_detail_title.setText(movie.title)
+        tv_detail_title.text = movie.title
         val genres = movie.genres.joinToString{it.name}
-        tv_genre.setText(genres)
+        tv_genre.text = genres
         val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         var dateString = ""
-        if(movie.release_date != null){
-            dateString = format.format(movie.release_date)
+        val date = movie.release_date
+        if( date != null){
+            dateString = format.format(date)
         }
-
-        tv_release_year.setText(dateString)
+        tv_release_year.text = dateString
         picasso.load(movie.poster_path)
             .error(R.drawable.photo)
             .into(iv_backdrop)
 
-        tv_overview.setText(movie.overview)
-        tv_vote_average.setText(movie.vote_average?.toString())
-        tv_vote_count.setText(movie.vote_count?.toString())
-        tv_original_title.setText(movie.original_title)
-        tv_release_date.setText(dateString)
-        tv_popul.setText(movie.popularity?.toString())
-        tv_adult.setText(if(movie.adult) "Yes" else "No")
-        tv_language.setText(Utils.mapELanguage(movie.original_language))
+        tv_overview.text = movie.overview
+        tv_vote_average.text = movie.vote_average?.toString()
+        tv_vote_count.text = movie.vote_count?.toString()
+        tv_original_title.text = movie.original_title
+        tv_release_date.text = dateString
+        tv_popul.text = movie.popularity?.toString()
+        tv_adult.text = if(movie.adult) "Yes" else "No"
+        tv_language.text = Utils.mapELanguage(movie.original_language)
         setupTrailer(movie.video)
     }
 
     override fun showLoading() {
-
+        swipe_refresh_det.isRefreshing = true
     }
 
     override fun hideLoading() {
-
+        swipe_refresh_det.isRefreshing = false
     }
 
     override fun hideError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        rl_error?.visibility = View.GONE
     }
 
     override fun showError(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun hideRefresh() {
-
+        rl_error?.visibility = View.VISIBLE
     }
 
     fun context(): Context {
         return this.activity!!
     }
 
-    fun movieId():Int {
-        val id = arguments?.getInt(UIParam.STATE_PARAM_BANK_ID) ?: -1
-        return id
+    private fun movieId():Int {
+        return arguments?.getInt(UIParam.STATE_PARAM_BANK_ID) ?: -1
     }
 
 }

@@ -26,6 +26,8 @@ class MovieDetailsPresenter : BasePresenter<MovieDetailsView>() {
     }
 
     fun initialize(movieId: Int, syncWithHostOnly: Boolean){
+        viewState.hideError()
+        showViewLoading()
         getMoviesDetails.execute(GetMoviesListObserver(), GetMovieDetails.Params.forMovieId(movieId, syncWithHostOnly))
     }
 

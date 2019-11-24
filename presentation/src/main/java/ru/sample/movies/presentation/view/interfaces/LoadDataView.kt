@@ -1,5 +1,6 @@
 package ru.sample.movies.presentation.view.interfaces
 
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
@@ -10,13 +11,13 @@ interface LoadDataView {
     /**
      * Show a view with a progress bar indicating a loading process.
      */
-    @StateStrategyType(SkipStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun showLoading()
 
     /**
      * Hide a loading view.
      */
-    @StateStrategyType(SkipStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideLoading()
 
     /**
@@ -34,10 +35,4 @@ interface LoadDataView {
     @StateStrategyType(SkipStrategy::class)
     fun hideError()
 
-    /**
-     * Hide swipe refresh
-     *
-     */
-    @StateStrategyType(SkipStrategy::class)
-    fun hideRefresh()
 }

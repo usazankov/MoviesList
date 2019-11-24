@@ -4,12 +4,9 @@ import android.util.Log
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
 import com.arellomobile.mvp.InjectViewState
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import ru.sample.movies.domain.entity.Movie
-import ru.sample.movies.domain.entity.MoviesPage
 import ru.sample.movies.domain.executor.PostExecutionThread
 import ru.sample.movies.domain.executor.ThreadExecutor
 import ru.sample.movies.domain.interactor.GetMoviesPage
@@ -31,7 +28,7 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
 
     val compositeDisposable = CompositeDisposable()
 
-    val dataSource = MoviesPositionalDataSource(false)
+    private val dataSource = MoviesPositionalDataSource(false)
 
     init {
         component.inject(this)
@@ -62,29 +59,29 @@ class SelectMoviesPresenter : BasePresenter<SelectMoviesDataView>() {
             .setFetchExecutor(threadExecutor)
             .build()
         viewState.hideError()
+        viewState.showLoading()
         viewState.renderMoviesList(pagedList)
     }
 
     inner class MoviesPositionalDataSource(var syncWithOnlyHost: Boolean): PositionalDataSource<Movie>(){
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Movie>) {
             Log.d("PagingLib", "loadRange, startPosition = " + params.startPosition +
-                    ", loadSize = " + params.loadSize);
-            //TODO if it will be possible to load the list page by page
+                    ", loadSize = " + params.loadSize)
         }
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Movie>) {
             Log.d("PagingLib", "loadInitial, requestedStartPosition = " + params.requestedStartPosition +
-                    ", requestedLoadSize = " + params.requestedLoadSize);
+                    ", requestedLoadSize = " + params.requestedLoadSize)
             val d = getMoviesPage.buildUseCaseObservable(GetMoviesPage.Params.forPage(1, syncWithOnlyHost))
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.getScheduler())
                 .doOnError {
                     viewState.showError("Ошибка")
-                    viewState.hideRefresh()
+                    viewState.hideLoading()
                 }
                 .subscribe {
                     callback.onResult(it.results, 0)
-                    viewState.hideRefresh()
+                    viewState.hideLoading()
                 }
             compositeDisposable.add(d)
         }
